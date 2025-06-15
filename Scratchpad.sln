@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scratchpad", "Scratchpad.csproj", "{B476B031-4B99-4FAD-99F1-2A46C97B28E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Netman", "..\Netman\Netman.csproj", "{D252F31E-BC2C-4145-A4FF-4F98C2F2050A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{B476B031-4B99-4FAD-99F1-2A46C97B28E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B476B031-4B99-4FAD-99F1-2A46C97B28E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B476B031-4B99-4FAD-99F1-2A46C97B28E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D252F31E-BC2C-4145-A4FF-4F98C2F2050A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D252F31E-BC2C-4145-A4FF-4F98C2F2050A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D252F31E-BC2C-4145-A4FF-4F98C2F2050A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D252F31E-BC2C-4145-A4FF-4F98C2F2050A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {941EC9BC-0511-4BA2-A34F-C72C1C55DCCA}
 	EndGlobalSection
 EndGlobal

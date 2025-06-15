@@ -1,13 +1,13 @@
-﻿using System.Text.Json;
+﻿//using System.Text.Json;
 
 static async Task Runner()
 {
     var file = await File.ReadAllTextAsync("deps.json");
     //var file = await File.ReadAllTextAsync("reverse-deps.json");
-    var dependencyGraph = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(file)!;
-    var reverseDependencyGraph = CreateReverseDependencyGraph(dependencyGraph);
+    //var dependencyGraph = JsonSerializer.Deserialize<Dictionary<string, List<string>>>(file)!;
+    //var reverseDependencyGraph = CreateReverseDependencyGraph(dependencyGraph);
 
-    var v = TopologicalSort(reverseDependencyGraph);
+    //var v = TopologicalSort(reverseDependencyGraph);
 }
 
 static Dictionary<string, List<string>> CreateReverseDependencyGraph(
