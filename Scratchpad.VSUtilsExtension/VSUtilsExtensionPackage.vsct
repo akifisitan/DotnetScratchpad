@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+
+  <Commands package="guidVSUtilsExtensionPackage">
+    <Groups>
+      <Group guid="guidVSUtilsExtensionPackageCmdSet" id="EditorContextMenuGroup" priority="0x0000">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+      </Group>
+    </Groups>
+    <Buttons>
+      <Button guid="guidVSUtilsExtensionPackageCmdSet" id="ViewInFileExplorerCommandId" priority="0x0100" type="Button">
+        <Parent guid="guidVSUtilsExtensionPackageCmdSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>View In File Explorer</ButtonText>
+        </Strings>
+      </Button>
+		
+      <Button guid="guidVSUtilsExtensionPackageCmdSet" id="OpenWithVSCodeCommandId" priority="0x0101" type="Button">
+        <Parent guid="guidVSUtilsExtensionPackageCmdSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>Open With VSCode</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidVSUtilsExtensionPackageCmdSet" id="OpenInTerminalCommandId" priority="0x0102" type="Button">
+        <Parent guid="guidVSUtilsExtensionPackageCmdSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>Open In Terminal</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidVSUtilsExtensionPackageCmdSet" id="ViewInTFSCommandId" priority="0x0103" type="Button">
+        <Parent guid="guidVSUtilsExtensionPackageCmdSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>View In TFS</ButtonText>
+        </Strings>
+      </Button>
+
+      <Button guid="guidVSUtilsExtensionPackageCmdSet" id="ValidateConfigCommandId" priority="0x0104" type="Button">
+        <Parent guid="guidVSUtilsExtensionPackageCmdSet" id="EditorContextMenuGroup" />
+        <Strings>
+          <ButtonText>Validate Config</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+
+  </Commands>
+
+  <Symbols>
+    <!-- This is the package guid. -->
+    <GuidSymbol name="guidVSUtilsExtensionPackage" value="{275bba8c-9473-457d-aedc-3975b190f20f}" />
+
+    <!-- This is the guid used to group the menu commands together -->
+    <GuidSymbol name="guidVSUtilsExtensionPackageCmdSet" value="{7bb3cbdf-a82a-46ff-a7a8-603a994041e5}">
+      <IDSymbol name="EditorContextMenuGroup" value="0x1020" />
+      <IDSymbol name="ViewInFileExplorerCommandId" value="0x0100" />
+	  <IDSymbol name="ViewInTFSCommandId" value="0x0101"  />
+	  <IDSymbol name="OpenWithVSCodeCommandId" value="0x0102"  />
+	  <IDSymbol name="OpenInTerminalCommandId" value="0x0103"  />
+      <IDSymbol name="ValidateConfigCommandId" value="0x0104"  />
+    </GuidSymbol>
+
+  </Symbols>
+</CommandTable>

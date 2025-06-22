@@ -10,11 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Remove="C:\Users\user\projects\demos\dotnet-demos\Scratchpad\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="C:\Users\user\projects\demos\dotnet-demos\Scratchpad\.editorconfig" />
+    <ProjectReference Include="..\Scratchpad.Lib\Scratchpad.Lib.csproj" />
   </ItemGroup>
 
 </Project>

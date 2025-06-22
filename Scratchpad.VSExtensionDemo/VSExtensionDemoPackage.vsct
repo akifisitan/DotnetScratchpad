@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<Extern href="stdidcmd.h"/>
+	<Extern href="vsshlids.h"/>
+
+	<Commands package="guidVSExtensionDemoPackage">
+		<Groups>
+			<!-- Editor context menu -->
+			<Group guid="guidVSExtensionDemoPackageCmdSet" id="EditorContextMenuGroup" priority="0x0000">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN" />
+			</Group>
+		</Groups>
+
+		<Buttons>
+			
+			<!-- Button for "Open in File Explorer" -->
+			<Button guid="guidVSExtensionDemoPackageCmdSet" id="OpenInExplorerCommandId" priority="0x0200" type="Button">
+				<Parent guid="guidVSExtensionDemoPackageCmdSet" id="EditorContextMenuGroup" />
+				<Icon guid="guidImages" id="bmpPic1" />
+				<Strings>
+					<ButtonText>Open in File Explorer</ButtonText>
+				</Strings>
+			</Button>
+			
+			<!-- Button for "Open in ScoreTFS" -->
+			<Button guid="guidVSExtensionDemoPackageCmdSet" id="OpenInScoreTFSCommandId" priority="0x0200" type="Button">
+				<Parent guid="guidVSExtensionDemoPackageCmdSet" id="EditorContextMenuGroup" />
+				<Icon guid="guidImages" id="bmpPic2" />
+				<Strings>
+					<ButtonText>Open in ScoreTFS</ButtonText>
+				</Strings>
+			</Button>
+			
+		</Buttons>
+
+		<Bitmaps>
+			<Bitmap guid="guidImages" href="Resources\OpenInFileExplorerCommand.png" usedList="bmpPic1, bmpPic2, bmpPicSearch, bmpPicX, bmpPicArrows, bmpPicStrikethrough"/>
+		</Bitmaps>
+	</Commands>
+
+	<Symbols>
+		<!-- Package GUID -->
+		<GuidSymbol name="guidVSExtensionDemoPackage" value="{463871e1-83b4-4c3e-953b-af3b4061e284}" />
+
+		<!-- Command Set GUID -->
+		<GuidSymbol name="guidVSExtensionDemoPackageCmdSet" value="{1ba84305-8cf4-438f-90b7-557a332aceca}">
+			<IDSymbol name="EditorContextMenuGroup" value="0x1020" />
+			<IDSymbol name="OpenInExplorerCommandId" value="0x0100" />
+			<IDSymbol name="OpenInScoreTFSCommandId" value="0x0101" />
+		</GuidSymbol>
+
+		<!-- Image GUID -->
+		<GuidSymbol name="guidImages" value="{96e21caa-2683-4865-84b1-61043d5a2fa2}" >
+			<IDSymbol name="bmpPic1" value="1" />
+			<IDSymbol name="bmpPic2" value="2" />
+			<IDSymbol name="bmpPicSearch" value="3" />
+			<IDSymbol name="bmpPicX" value="4" />
+			<IDSymbol name="bmpPicArrows" value="5" />
+			<IDSymbol name="bmpPicStrikethrough" value="6" />
+		</GuidSymbol>
+	</Symbols>
+</CommandTable>
