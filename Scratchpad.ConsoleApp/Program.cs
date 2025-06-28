@@ -1,3 +1,5 @@
 ﻿using Scratchpad.Lib;
 
-await ProjectDependencyUtils.Runner();
+//await ProjectDependencyUtils.Runner();
+
+ZipSearcher.Demo();
