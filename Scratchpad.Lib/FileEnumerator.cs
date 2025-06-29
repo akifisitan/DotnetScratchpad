@@ -69,7 +69,6 @@ public static class FileEnumerator
             cancellationToken.ThrowIfCancellationRequested();
             var currentPath = directoryStack.Pop();
 
-            // Process files in current directory
             foreach (var filePath in Directory.EnumerateFiles(currentPath, "*", enumerationOptions))
             {
                 cancellationToken.ThrowIfCancellationRequested();
@@ -79,7 +78,6 @@ public static class FileEnumerator
                 }
             }
 
-            // Add subdirectories to stack
             foreach (
                 var dirPath in Directory.EnumerateDirectories(currentPath, "*", enumerationOptions)
             )

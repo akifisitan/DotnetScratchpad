@@ -1,37 +1,36 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.IO.Compression;
 using System.Text.RegularExpressions;
+using Spectre.Console;
 
 namespace Scratchpad.Lib;
 
-public sealed class ZipSearcher
+public static class ZipSearcher
 {
-    public static void Demo(string[]? args = null)
+    public static void SearchLogFiles(
+        string searchPattern,
+        string searchDirectory,
+        DateTimeOffset? startDate,
+        DateTimeOffset? endDate
+    )
     {
-        var searchDirectoryRoot = @"C:\users\user\desktop\zip-demo";
+        //var searchDirectoryRoot = @"C:\users\user\desktop\zip-demo";
+        //var searchPattern = "123456";
+        //var startDate = DateTimeOffset.Parse("2025-06-22 20:00:00");
+        //var endDate = DateTimeOffset.Parse("2025-06-22 21:00:00");
 
-        //Console.Write("Enter pattern: ");
-
-        //var input = Console.ReadLine();
-
-        //var searchPattern = !string.IsNullOrWhiteSpace(input) ?? "";
-        var searchPattern = "123456";
-
-        var startDate = DateTimeOffset.Parse("2025-06-22 20:00:00");
-        var endDate = DateTimeOffset.Parse("2025-06-22 21:00:00");
-
-        startDate = DateTimeOffset.MinValue;
-        endDate = DateTimeOffset.MaxValue;
-
-        var regex = new Regex(searchPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        var searchRegex = new Regex(
+            searchPattern,
+            RegexOptions.Compiled | RegexOptions.IgnoreCase,
+            TimeSpan.FromSeconds(1)
+        );
 
         var zipFilePaths = FileEnumerator.EnumerateFiles(
-            searchDirectoryRoot,
+            searchDirectory,
             (p) => p.EndsWith("myzip1.zip")
         );
 
-        var zipFileSearchOptions = new ZipFileSearchOptions(true, "");
+        var zipFileSearchOptions = new ZipFileSearchOptions();
 
         var sw = Stopwatch.StartNew();
 
@@ -44,14 +43,40 @@ public sealed class ZipSearcher
 
         void Idk(string zipFilePath)
         {
-            var results = SearchInZip(zipFilePath, regex, startDate, endDate, zipFileSearchOptions);
+            var results = SearchInZip(
+                zipFilePath,
+                searchRegex,
+                startDate ?? DateTimeOffset.MinValue,
+                endDate ?? DateTimeOffset.MaxValue,
+                zipFileSearchOptions
+            );
 
             foreach (var filePath in results)
             {
                 //OpenIn7Zip(filePath);
-                //Log($"-> {filePath}");
+                Log($"-> {filePath}");
             }
         }
+    }
+
+    private static string GetUserChoice(List<string> choices)
+    {
+        var prompt = new SelectionPrompt<string>()
+            .Title("Pick one or more files to open.")
+            .EnableSearch()
+            .SearchPlaceholderText("Search: ")
+            .PageSize(10)
+            .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
+            .AddChoices(choices)
+            .WrapAround();
+
+        prompt.SearchHighlightStyle = new Style(
+            foreground: Color.Blue,
+            background: Color.Red,
+            decoration: Decoration.Underline
+        );
+
+        return AnsiConsole.Prompt(prompt);
     }
 
     public static IEnumerable<string> SearchInZip(
@@ -84,8 +109,14 @@ public sealed class ZipSearcher
         }
     }
 
-    public record ZipFileSearchOptions(bool Save, string SavePath);
+    public record ZipFileSearchOptions(string? ExtractPath = null, bool ExitEarly = false);
 
+    // Choice 1: Extract and open .log files from zip automatically as they are found
+    // Choice 2: Find all .log files and display them as a list to the user, when the user presses enter on them extract and open them
+    // Choice 3: Switches for both?
+    // Things to consider:
+    // 1. What if there are too many files found? Unzipping them would take long and could be a problem. Choice 2 is better for it.
+    // 2.
     private static IEnumerable<string> SearchInZipInternal(
         string zipFilePath,
         Regex searchRegex,
@@ -102,6 +133,8 @@ public sealed class ZipSearcher
 
         // This stream is not thread safe
         using var archive = ZipFile.OpenRead(zipFilePath);
+
+        List<string> tp = [];
 
         foreach (var entry in archive.Entries)
         {
@@ -123,7 +156,8 @@ public sealed class ZipSearcher
             {
                 if (searchRegex.IsMatch(line))
                 {
-                    if (zipFileSearchOptions.Save)
+                    tp.Add(entry.FullName);
+                    if (!string.IsNullOrWhiteSpace(zipFileSearchOptions.ExtractPath))
                     {
                         var sw = Stopwatch.StartNew();
                         entry.ExtractToFile($"{entry.FullName.Replace('/', '-')}", overwrite: true);
@@ -136,14 +170,23 @@ public sealed class ZipSearcher
                 }
             }
         }
+
+        var a = GetUserChoice(tp);
+
+        var e = archive.GetEntry(a)!;
+        var f = $"{e.FullName.Replace('/', '-')}";
+
+        e.ExtractToFile(f, overwrite: true);
+
+        Open(f);
     }
 
-    private static void OpenIn7Zip(string path)
+    private static void Open(string path)
     {
         Process.Start(
             new ProcessStartInfo
             {
-                FileName = @"C:\Program Files\7-Zip\7zFM.exe",
+                FileName = @"C:\Program Files\Notepad++\notepad++.exe",
                 Arguments = path,
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
@@ -156,30 +199,5 @@ public sealed class ZipSearcher
     private static void Log(string message)
     {
         Console.WriteLine(message);
-    }
-
-    private static ConcurrentBag<string> EnumerateZipFilesInDirectory(string directoryPath)
-    {
-        var directoryPaths = FileEnumerator.EnumerateFiles(
-            directoryPath,
-            (p) => p.EndsWith(".zip")
-        );
-
-        return new();
-    }
-
-    private static void CreateTestZip(string path)
-    {
-        using var memoryStream = new MemoryStream();
-
-        using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
-        {
-            archive.CreateEntry("documents/report.docx");
-            archive.CreateEntry("documents/notes.txt");
-            archive.CreateEntry("images/photo.jpg");
-            archive.CreateEntry("logs/2025-06-20.log.txt");
-        }
-
-        File.WriteAllBytes(path, memoryStream.ToArray());
     }
 }

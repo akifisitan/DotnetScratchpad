@@ -13,4 +13,9 @@
     <ProjectReference Include="..\Scratchpad.Lib\Scratchpad.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.50.0" />
+    <PackageReference Include="ConsoleAppFramework" Version="5.5.0" />
+  </ItemGroup>
+
 </Project>
