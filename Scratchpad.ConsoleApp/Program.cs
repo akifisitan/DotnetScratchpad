@@ -1,4 +1,5 @@
-﻿using ConsoleAppFramework;
+﻿using System.Globalization;
+using ConsoleAppFramework;
 using Scratchpad.Lib;
 
 internal class Program
@@ -51,9 +52,35 @@ internal class Program
             [Argument] string searchPattern,
             [Argument] string searchDirectory,
             DateTimeOffset? startDate = null,
-            DateTimeOffset? endDate = null
+            DateTimeOffset? endDate = null,
+            string? afterHour = null,
+            string? beforeHour = null
         )
         {
+            DateTime res = DateTime.MinValue;
+
+            if (
+                afterHour is not null
+                && !DateTime.TryParseExact(
+                    afterHour,
+                    "HH:mm:ss",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.None,
+                    out res
+                )
+            )
+            {
+                Console.WriteLine(
+                    $"Argument 'after-hour' failed to parse, provided value: {afterHour}. Expected format: HH:mm:ss"
+                );
+                return;
+            }
+
+            Console.WriteLine(res.TimeOfDay);
+
+            Console.WriteLine(res);
+
+            Console.WriteLine(startDate);
             FileSearcher.SearchLogFiles(searchPattern, searchDirectory, startDate, endDate);
         }
     }
