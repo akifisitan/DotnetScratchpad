@@ -48,6 +48,7 @@ public static class FileEnumerator
         string rootPath,
         Func<string, bool>? includeFilePredicate = null,
         Func<string, bool>? ignoreDirPredicate = null,
+        EnumerationOptions? enumerationOptions = null,
         CancellationToken cancellationToken = default
     )
     {
@@ -59,7 +60,7 @@ public static class FileEnumerator
         includeFilePredicate ??= _ => true;
         ignoreDirPredicate ??= _ => false;
 
-        var enumerationOptions = new EnumerationOptions { IgnoreInaccessible = true };
+        enumerationOptions ??= new EnumerationOptions { IgnoreInaccessible = true };
 
         var directoryStack = new Stack<string>();
         directoryStack.Push(rootPath);

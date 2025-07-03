@@ -23,46 +23,55 @@ internal class Program
     public class Commands
     {
         /// <summary>
-        /// Search zipped log files.
-        /// </summary>
-        /// <param name="searchPattern">Search pattern (regex)</param>
-        /// <param name="searchDirectory">Path to the zip file to search files in</param>
-        /// <param name="startDate">-after, Start date</param>
-        /// <param name="endDate">-before, End date</param>
-        [Command("zip")]
-        public void Zip(
-            [Argument] string searchPattern,
-            [Argument] string searchDirectory,
-            DateTimeOffset? startDate = null,
-            DateTimeOffset? endDate = null
-        )
-        {
-            ZipSearcher.SearchLogFiles(searchPattern, searchDirectory, startDate, endDate);
-        }
-
-        /// <summary>
-        /// Search unzipped log files.
+        /// Search log files.
         /// </summary>
         /// <param name="searchPattern">Search pattern (regex)</param>
         /// <param name="searchDirectory">Path of the directory to search files in</param>
-        /// <param name="startDate">-after, Start date</param>
-        /// <param name="endDate">-before, End date</param>
+        /// <param name="searchZip">-z, Search inside zipped files or not</param>
+        /// <param name="include">Include glob patterns</param>
+        /// <param name="exclude">Exclude glob patterns</param>
+        /// <param name="startDateTime">-sdt, Start datetime</param>
+        /// <param name="endDateTime">-edt, End datetime</param>
+        /// <param name="startTime">-st, Start time in HH:mm:ss</param>
+        /// <param name="endTime">-et, End time in HH:mm:ss</param>
+        /// <param name="interactive">Interactive or not</param>
         [Command("file")]
         public void File(
             [Argument] string searchPattern,
             [Argument] string searchDirectory,
-            DateTimeOffset? startDate = null,
-            DateTimeOffset? endDate = null,
-            string? afterHour = null,
-            string? beforeHour = null
+            bool searchZip = false,
+            string include = "*",
+            string? exclude = null,
+            DateTimeOffset? startDateTime = null,
+            DateTimeOffset? endDateTime = null,
+            string? startTime = null,
+            string? endTime = null,
+            bool interactive = false
         )
+        {
+            var (s, isValid) = ValidateInput(startTime);
+
+            Console.WriteLine(startDateTime);
+
+            FileSearcher.SearchLogFiles(
+                searchPattern,
+                searchDirectory: searchDirectory,
+                includePattern: include,
+                excludePattern: exclude,
+                startDate: startDateTime,
+                endDate: endDateTime,
+                searchZip: searchZip
+            );
+        }
+
+        private static (DateTime a, bool IsValid) ValidateInput(string? dateTimeString)
         {
             DateTime res = DateTime.MinValue;
 
             if (
-                afterHour is not null
+                dateTimeString is not null
                 && !DateTime.TryParseExact(
-                    afterHour,
+                    dateTimeString,
                     "HH:mm:ss",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.None,
@@ -71,17 +80,12 @@ internal class Program
             )
             {
                 Console.WriteLine(
-                    $"Argument 'after-hour' failed to parse, provided value: {afterHour}. Expected format: HH:mm:ss"
+                    $"Argument 'after-hour' failed to parse, provided value: {dateTimeString}. Expected format: HH:mm:ss"
                 );
-                return;
+                return (default, false);
             }
 
-            Console.WriteLine(res.TimeOfDay);
-
-            Console.WriteLine(res);
-
-            Console.WriteLine(startDate);
-            FileSearcher.SearchLogFiles(searchPattern, searchDirectory, startDate, endDate);
+            return (res, true);
         }
     }
 }
