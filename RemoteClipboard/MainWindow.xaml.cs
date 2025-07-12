@@ -1,11 +1,7 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 
 namespace RemoteClipboard;
 
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
 public partial class MainWindow : Window
 {
     public MainWindow()
@@ -13,23 +9,36 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private async void TextBox_KeyDown(object sender, KeyEventArgs e)
+    private async void ReadButton_Click(object sender, RoutedEventArgs e)
     {
-        await Task.Delay(1000);
-        var clipboardText = Clipboard.GetText(TextDataFormat.UnicodeText);
+        SetLoading(true);
+        var result = await Functions.ReadFromRemoteClipboard();
+        MessageBox.Show($"Clipboard data:\n{result}");
+        SetLoading(false);
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e)
+    private async void WriteButton_Click(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            var clipboardText = Clipboard.GetText(TextDataFormat.UnicodeText);
-            MessageBox.Show($"Text: {clipboardText}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            MessageBox.Show("An error occurred while getting clipboard text.");
-        }
+        SetLoading(true);
+
+        var text = !string.IsNullOrWhiteSpace(InputTextBox.Text) ? InputTextBox.Text : null;
+        await Functions.WriteToRemoteClipboard(text);
+
+        SetLoading(false);
+    }
+
+    private void LogoutButton_Click(object sender, RoutedEventArgs e)
+    {
+        Functions.Logout();
+        var loginWindow = new LoginWindow();
+        loginWindow.Show();
+        Close();
+    }
+
+    private void SetLoading(bool isLoading)
+    {
+        WriteButton.IsEnabled = !isLoading;
+        ReadButton.IsEnabled = !isLoading;
+        LogoutButton.IsEnabled = !isLoading;
     }
 }

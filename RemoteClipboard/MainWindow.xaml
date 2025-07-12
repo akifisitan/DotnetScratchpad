@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox Width="300px" Height="25px" KeyDown="TextBox_KeyDown" />
-        <Button Click="Button_Click">Hellooo</Button>
+        <StackPanel Margin="20">
+            <Button x:Name="ReadButton" Content="Read" Click="ReadButton_Click" Margin="0,0,0,10"/>
+            <TextBox x:Name="InputTextBox" Margin="0,0,0,10"/>
+            <Button x:Name="WriteButton" Content="Write" Click="WriteButton_Click" Margin="0,0,0,10"/>
+            <Button x:Name="LogoutButton" Content="Logout" Click="LogoutButton_Click" Margin="0,0,0,10"/>
+        </StackPanel>
     </Grid>
 </Window>
