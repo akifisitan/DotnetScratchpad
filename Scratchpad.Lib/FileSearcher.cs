@@ -29,9 +29,7 @@ public static class FileSearcher
             TimeSpan.FromMilliseconds(250)
         );
 
-        var matcher = new Matcher(StringComparison.InvariantCultureIgnoreCase).AddInclude(
-            includePattern
-        );
+        var matcher = new Matcher().AddInclude(includePattern);
 
         if (!string.IsNullOrWhiteSpace(excludePattern))
         {
@@ -42,7 +40,7 @@ public static class FileSearcher
             searchDirectory,
             includeFilePredicate: path =>
             {
-                if (!matcher.Match(path).HasMatches)
+                if (!matcher.Match(searchDirectory, path).HasMatches)
                 {
                     return false;
                 }

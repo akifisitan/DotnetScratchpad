@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.AI;
+﻿using System.ComponentModel;
+using System.Text;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.ComponentModel;
-using System.Text;
 
 var builder = Host.CreateApplicationBuilder();
 
