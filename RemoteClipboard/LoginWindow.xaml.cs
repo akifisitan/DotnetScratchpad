@@ -53,7 +53,6 @@ public partial class LoginWindow : Window
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         SetLoadingState(true);
-        await Task.Delay(2000);
         var savedCredentials = await SecureStorage.GetCredentials();
         SetLoadingState(false);
 
@@ -64,8 +63,6 @@ public partial class LoginWindow : Window
 
         UsernameTextBox.Text = savedCredentials.UserName;
         PasswordBox.Password = savedCredentials.Password;
-
-        await Task.Delay(1000);
 
         await HandleLogin();
     }

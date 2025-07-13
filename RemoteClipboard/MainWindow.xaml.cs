@@ -13,7 +13,8 @@ public partial class MainWindow : Window
     {
         SetLoading(true);
         var result = await Functions.ReadFromRemoteClipboard();
-        MessageBox.Show($"Clipboard data:\n{result}");
+        ReadTextBox.Text = result;
+        //MessageBox.Show($"Clipboard data:\n{result}");
         SetLoading(false);
     }
 
@@ -25,6 +26,11 @@ public partial class MainWindow : Window
         await Functions.WriteToRemoteClipboard(text);
 
         SetLoading(false);
+    }
+
+    private void CopyButton_Click(object sender, RoutedEventArgs e)
+    {
+        Functions.SetClipboardText(ReadTextBox.Text);
     }
 
     private void LogoutButton_Click(object sender, RoutedEventArgs e)

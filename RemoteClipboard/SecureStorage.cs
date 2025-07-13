@@ -27,7 +27,10 @@ public class SecureStorage
         }
     }
 
-    public static async Task SaveCredentials(UserCredentials userCredentials)
+    public static async Task SaveCredentials(
+        UserCredentials userCredentials,
+        CancellationToken cancellationToken = default
+    )
     {
         try
         {
@@ -39,19 +42,21 @@ public class SecureStorage
                 DataProtectionScope.CurrentUser
             );
 
-            await File.WriteAllBytesAsync(_filePath, encryptedData);
+            await File.WriteAllBytesAsync(_filePath, encryptedData, cancellationToken);
         }
         catch { }
     }
 
-    public static async Task<UserCredentials?> GetCredentials()
+    public static async Task<UserCredentials?> GetCredentials(
+        CancellationToken cancellationToken = default
+    )
     {
         try
         {
             if (!File.Exists(_filePath))
                 return null;
 
-            var encryptedData = await File.ReadAllBytesAsync(_filePath);
+            var encryptedData = await File.ReadAllBytesAsync(_filePath, cancellationToken);
             var decryptedData = ProtectedData.Unprotect(
                 encryptedData,
                 null,
