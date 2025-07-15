@@ -1,9 +1,53 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
+using System.Text;
 using ConsoleAppFramework;
 using Scratchpad.Lib;
 
 internal class Program
 {
+    public static Process StartProcessAndReadOutput(
+        string filename,
+        string arguments,
+        string workingDirectory
+    )
+    {
+        var process =
+            Process.Start(
+                new ProcessStartInfo
+                {
+                    FileName = filename,
+                    Arguments = arguments,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    CreateNoWindow = true,
+                    WorkingDirectory = workingDirectory,
+                }
+            ) ?? throw new Exception("An error occurred while starting process");
+
+        process.OutputDataReceived += (sender, e) =>
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                Console.WriteLine(e.Data);
+            }
+        };
+
+        process.ErrorDataReceived += (sender, e) =>
+        {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                Console.WriteLine(e.Data);
+            }
+        };
+
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
+
+        return process;
+    }
+
     private static void Main(string[] args)
     {
         //if (args.Length == 0)
@@ -12,6 +56,25 @@ internal class Program
         //    Console.ReadKey(true);
         //    Environment.Exit(1);
         //}
+
+        using var process = StartProcessAndReadOutput(
+            "git",
+            "ls-tree -r HEAD --name-only --full-name",
+            ""
+        );
+
+        var sb = new StringBuilder();
+
+        foreach (var item in new List<string>())
+        {
+            var fileName = item;
+            var content = File.ReadAllText(Path.Combine("", item));
+            sb.AppendLine($"--- {fileName} ---\n{content}");
+        }
+
+        File.WriteAllText("output.txt", sb.ToString());
+
+        Environment.Exit(0);
 
         var app = ConsoleApp.Create();
 

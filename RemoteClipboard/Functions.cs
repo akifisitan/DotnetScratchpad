@@ -8,7 +8,6 @@ namespace RemoteClipboard;
 
 public static class Functions
 {
-    private const string fileName = "hello.txt";
     private static readonly SocketsHttpHandler httpHandler = new()
     {
         PooledConnectionLifetime = TimeSpan.FromMinutes(5),
