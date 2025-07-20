@@ -10,12 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Scratchpad.Lib\Scratchpad.Lib.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Spectre.Console" Version="0.50.0" />
-    <PackageReference Include="ConsoleAppFramework" Version="5.5.0" />
+    <ProjectReference Include="..\Scratchpad.Lib\Scratchpad.Lib.csproj" />
   </ItemGroup>
 
 </Project>
