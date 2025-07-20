@@ -1,8 +1,12 @@
 {
   "profiles": {
-    "ProjectPacker": {
+    "PackProject": {
       "commandName": "Project",
-      "commandLineArgs": "pack 123 123"
+      "commandLineArgs": "pack C:\\Users\\user\\projects\\demos\\dotnet-demos\\DotnetScratchpad DotnetScratchpad.txt"
+    },
+    "UnpackProject": {
+      "commandName": "Project",
+      "commandLineArgs": "unpack C:\\Users\\user\\projects\\demos\\dotnet-demos\\DotnetScratchpad DotnetScratchpad.txt"
     }
   }
 }
