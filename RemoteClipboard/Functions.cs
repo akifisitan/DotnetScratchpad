@@ -18,6 +18,11 @@ public static class Functions
     private static string? _lastKvp;
     private static AuthenticationHeaderValue _authenticationHeader = null!;
 
+    private static readonly string remoteFilePath = Path.Combine(
+        Environment.CurrentDirectory,
+        "remoteFile.txt"
+    );
+
     private static AuthenticationHeaderValue GetAuthenticationHeaderValue()
     {
         var kvp =
@@ -77,7 +82,7 @@ public static class Functions
     {
         text ??= GetClipboardText();
         await Task.Delay(1000, cancellationToken);
-        await File.WriteAllTextAsync(fileName, text, cancellationToken);
+        await File.WriteAllTextAsync(remoteFilePath, text, cancellationToken);
     }
 
     public static async Task<string> ReadFromRemoteClipboard(
@@ -89,7 +94,7 @@ public static class Functions
         //var response = await httpClient.GetAsync("/123", cancellationToken);
 
         await Task.Delay(1000, cancellationToken);
-        var text = await File.ReadAllTextAsync(fileName, cancellationToken);
+        var text = await File.ReadAllTextAsync(remoteFilePath, cancellationToken);
         SetClipboardText(text);
         return text;
     }

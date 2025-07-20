@@ -9,5 +9,7 @@ public static class DIRegistrations
     {
         services.AddSingleton<ISecureStorage, DpapiSecureStorage>();
         services.AddSingleton<IProjectSharer, ProjectSharer>();
+        //services.AddSingleton<IClipboardService, RemoteClipboardService>();
+        services.AddSingleton<IClipboardService, LocalTextFileClipboardService>();
     }
 }

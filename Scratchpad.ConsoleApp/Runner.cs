@@ -13,6 +13,11 @@ internal class Runner : IRunner
 
     public async Task Run(string[] args)
     {
+        await RunProjectSharer();
+    }
+
+    private async Task RunProjectSharer()
+    {
         var directoryPathToClone = @"C:\Users\user\projects\demos\dotnet-demos\DotnetScratchpad";
 
         var filePath = Path.Combine(Environment.CurrentDirectory, "importData.json");
