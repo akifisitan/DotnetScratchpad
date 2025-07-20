@@ -1,13 +1,13 @@
 ﻿namespace Scratchpad.Lib.Abstractions;
 
-public interface IProjectSharer
+public interface IDirectoryPacker
 {
-    Task Export(
+    Task Pack(
         string basePath,
         string outputFilePath,
         CancellationToken cancellationToken = default
     );
-    Task Import(
+    Task Unpack(
         string textFilePath,
         string outputDirectoryPath,
         CancellationToken cancellationToken = default

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ProjectPacker": {
+      "commandName": "Project",
+      "commandLineArgs": "pack 123 123"
+    }
+  }
+}

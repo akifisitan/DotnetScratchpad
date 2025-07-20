@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSUtilsExtension", "Scratch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteClipboard", "RemoteClipboard\RemoteClipboard.csproj", "{2C296C6F-EB32-45CA-B7C4-52819AD92387}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectPacker", "ProjectPacker\ProjectPacker.csproj", "{00254135-168B-4DA7-9993-F4D6449DCFD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{2C296C6F-EB32-45CA-B7C4-52819AD92387}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C296C6F-EB32-45CA-B7C4-52819AD92387}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C296C6F-EB32-45CA-B7C4-52819AD92387}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

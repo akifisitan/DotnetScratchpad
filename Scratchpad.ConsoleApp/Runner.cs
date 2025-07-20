@@ -4,9 +4,9 @@ namespace Scratchpad.ConsoleApp;
 
 internal class Runner : IRunner
 {
-    private readonly IProjectSharer _projectSharer;
+    private readonly IDirectoryPacker _projectSharer;
 
-    public Runner(IProjectSharer projectSharer)
+    public Runner(IDirectoryPacker projectSharer)
     {
         _projectSharer = projectSharer;
     }
@@ -22,12 +22,12 @@ internal class Runner : IRunner
 
         var filePath = Path.Combine(Environment.CurrentDirectory, "importData.json");
 
-        await _projectSharer.Export(directoryPathToClone, filePath);
-
         if (!Directory.Exists(directoryPathToClone))
         {
             throw new Exception("Directory does not exist.");
         }
+
+        await _projectSharer.Pack(directoryPathToClone, filePath);
 
         var outputDirectoryPath =
             @"C:\Users\user\projects\demos\dotnet-demos\DotnetScratchpad-clone";
@@ -44,6 +44,6 @@ internal class Runner : IRunner
 
         Directory.CreateDirectory(outputDirectoryPath);
 
-        await _projectSharer.Import(filePath, outputDirectoryPath);
+        await _projectSharer.Unpack(filePath, outputDirectoryPath);
     }
 }

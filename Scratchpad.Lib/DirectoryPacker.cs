@@ -4,7 +4,7 @@ using Scratchpad.Lib.Model;
 
 namespace Scratchpad.Lib;
 
-public class ProjectSharer : IProjectSharer
+public class DirectoryPacker : IDirectoryPacker
 {
     private static readonly JsonSerializerOptions jsonSerializerOptions = new()
     {
@@ -12,7 +12,7 @@ public class ProjectSharer : IProjectSharer
         IndentSize = 2,
     };
 
-    public async Task Export(
+    public async Task Pack(
         string basePath,
         string outputFilePath,
         CancellationToken cancellationToken = default
@@ -44,7 +44,7 @@ public class ProjectSharer : IProjectSharer
         );
     }
 
-    public async Task Import(
+    public async Task Unpack(
         string importFilePath,
         string outputDirectoryPath,
         CancellationToken cancellationToken = default
