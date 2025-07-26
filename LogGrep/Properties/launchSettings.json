@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "LogGrep": {
+      "commandName": "Project",
+      "commandLineArgs": "wowzer@email.com"
+    },
+    "Debug1": {
+      "commandName": "Project",
+      "commandLineArgs": "wowzer@email.com --hehe 123"
+    }
+  }
+}

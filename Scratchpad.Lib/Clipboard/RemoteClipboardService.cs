@@ -1,9 +1,8 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
-using Scratchpad.Lib.Abstractions;
 
-namespace Scratchpad.Lib;
+namespace Scratchpad.Lib.Clipboard;
 
 internal class RemoteClipboardService : IClipboardService
 {

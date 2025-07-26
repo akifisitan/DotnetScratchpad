@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Scratchpad.Lib.Abstractions;
+using Scratchpad.Lib.Clipboard;
 
 namespace Scratchpad.Lib;
 

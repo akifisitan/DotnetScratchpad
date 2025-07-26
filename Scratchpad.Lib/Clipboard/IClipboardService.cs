@@ -1,4 +1,4 @@
-﻿namespace Scratchpad.Lib.Abstractions;
+﻿namespace Scratchpad.Lib.Clipboard;
 
 public interface IClipboardService
 {

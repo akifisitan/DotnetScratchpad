@@ -1,6 +1,4 @@
-﻿using Scratchpad.Lib.Abstractions;
-
-namespace Scratchpad.Lib;
+﻿namespace Scratchpad.Lib.Clipboard;
 
 internal class LocalTextFileClipboardService : IClipboardService
 {
