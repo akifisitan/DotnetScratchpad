@@ -4,6 +4,8 @@ namespace RemoteClipboard.Abstractions;
 
 public interface IAuthService
 {
-    Task Login(UserCredentials userCredentials, CancellationToken cancellationToken = default);
-    void Logout();
+    Task ValidateCredentials(
+        UserCredentials userCredentials,
+        CancellationToken cancellationToken = default
+    );
 }

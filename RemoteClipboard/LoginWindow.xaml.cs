@@ -28,7 +28,11 @@ public partial class LoginWindow : Window
             ErrorMessage.Text = string.Empty;
             SetLoadingState(true);
 
-            var userCredentials = new UserCredentials(UsernameTextBox.Text, PasswordBox.Password);
+            var userCredentials = new UserCredentials(
+                UsernameTextBox.Text,
+                PasswordBox.Password,
+                ClipboardIdTextBox.Text
+            );
 
             if (await _appService.Login(userCredentials))
             {
@@ -69,6 +73,7 @@ public partial class LoginWindow : Window
 
         UsernameTextBox.Text = savedCredentials.UserName;
         PasswordBox.Password = savedCredentials.Password;
+        ClipboardIdTextBox.Text = savedCredentials.ClipboardId;
 
         await HandleLogin();
     }

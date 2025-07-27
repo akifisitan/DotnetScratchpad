@@ -20,9 +20,9 @@ internal sealed class AppService : IAppService
         CancellationToken cancellationToken = default
     )
     {
-        await _authService.Login(userCredentials, cancellationToken);
+        await _authService.ValidateCredentials(userCredentials, cancellationToken);
 
-        ApplicationData.UserCredentials = userCredentials;
+        DesktopContext.UserCredentials = userCredentials;
 
         await _secureStorage.SaveCredentials(userCredentials, cancellationToken);
 
@@ -31,7 +31,7 @@ internal sealed class AppService : IAppService
 
     public void Logout()
     {
-        ApplicationData.UserCredentials = null;
+        DesktopContext.UserCredentials = null;
 
         _secureStorage.DeleteCredentials();
     }

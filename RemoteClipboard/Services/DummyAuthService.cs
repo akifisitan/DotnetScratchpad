@@ -5,16 +5,13 @@ namespace RemoteClipboard.Services;
 
 internal sealed class DummyAuthService : IAuthService
 {
-    public async Task Login(
+    private static TimeSpan Jitter => TimeSpan.FromMilliseconds(new Random().Next(200, 2000));
+
+    public async Task ValidateCredentials(
         UserCredentials userCredentials,
         CancellationToken cancellationToken = default
     )
     {
-        await Task.Delay(2000, cancellationToken);
-    }
-
-    public void Logout()
-    {
-        return;
+        await Task.Delay(Jitter, cancellationToken);
     }
 }

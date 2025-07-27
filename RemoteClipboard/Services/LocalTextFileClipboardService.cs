@@ -1,21 +1,15 @@
 ﻿using System.IO;
+using RemoteClipboard.Model;
 using Scratchpad.Lib.Clipboard;
 
 namespace RemoteClipboard.Services;
 
 internal class LocalTextFileClipboardService : IClipboardService
 {
-    private static readonly string directoryBasePath = Path.Combine(
-        Environment.CurrentDirectory,
-        "mydir"
-    );
+    private static string DirectoryBasePath =>
+        Path.Combine(Environment.CurrentDirectory, DesktopContext.UserCredentials!.ClipboardId);
 
-    private static TimeSpan Jitter => TimeSpan.FromMilliseconds(new Random().Next(200, 4000));
-
-    static LocalTextFileClipboardService()
-    {
-        Directory.CreateDirectory(directoryBasePath);
-    }
+    private static TimeSpan Jitter => TimeSpan.FromMilliseconds(new Random().Next(200, 2000));
 
     public async Task WriteToClipboard(
         string? text = null,
@@ -24,9 +18,11 @@ internal class LocalTextFileClipboardService : IClipboardService
     {
         await Task.Delay(Jitter, cancellationToken);
 
+        Directory.CreateDirectory(DirectoryBasePath);
+
         var fileName = $"{Guid.NewGuid()}.txt";
         await File.WriteAllTextAsync(
-            Path.Combine(directoryBasePath, fileName),
+            Path.Combine(DirectoryBasePath, fileName),
             text,
             cancellationToken
         );
@@ -47,8 +43,9 @@ internal class LocalTextFileClipboardService : IClipboardService
 
     private static List<string> GetLastNFiles(int n)
     {
+        Directory.CreateDirectory(DirectoryBasePath);
         return Directory
-            .EnumerateFiles(directoryBasePath)
+            .EnumerateFiles(DirectoryBasePath)
             .OrderByDescending(File.GetLastWriteTime)
             .Take(n)
             .ToList();

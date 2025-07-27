@@ -9,25 +9,8 @@ namespace RemoteClipboard.Services;
 
 public class SecureStorage : ISecureStorage
 {
-    //private static readonly string _filePath = Path.Combine(
-    //    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-    //    "RemoteClipboard",
-    //    "credentials.dat"
-    //);
-
-    private static readonly string _filePath = Path.Combine(
-        Environment.CurrentDirectory,
-        "encryptedcredentials.dat"
-    );
-
-    public SecureStorage()
-    {
-        var directory = Path.GetDirectoryName(_filePath);
-        if (!Directory.Exists(directory))
-        {
-            Directory.CreateDirectory(directory!);
-        }
-    }
+    private static string GetFilePath =>
+        Path.Combine(Environment.CurrentDirectory, "encryptedcredentials.dat");
 
     public async Task SaveCredentials(
         UserCredentials userCredentials,
@@ -44,7 +27,7 @@ public class SecureStorage : ISecureStorage
                 DataProtectionScope.CurrentUser
             );
 
-            await File.WriteAllBytesAsync(_filePath, encryptedData, cancellationToken);
+            await File.WriteAllBytesAsync(GetFilePath, encryptedData, cancellationToken);
         }
         catch { }
     }
@@ -55,12 +38,7 @@ public class SecureStorage : ISecureStorage
     {
         try
         {
-            if (!File.Exists(_filePath))
-            {
-                return null;
-            }
-
-            var encryptedData = await File.ReadAllBytesAsync(_filePath, cancellationToken);
+            var encryptedData = await File.ReadAllBytesAsync(GetFilePath, cancellationToken);
             var decryptedData = ProtectedData.Unprotect(
                 encryptedData,
                 null,
@@ -81,11 +59,8 @@ public class SecureStorage : ISecureStorage
     {
         try
         {
-            File.Delete(_filePath);
+            File.Delete(GetFilePath);
         }
-        catch
-        {
-            // Handle deletion errors
-        }
+        catch { }
     }
 }
