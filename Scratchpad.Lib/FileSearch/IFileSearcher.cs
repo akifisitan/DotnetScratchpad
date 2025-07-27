@@ -2,5 +2,5 @@
 
 internal interface IFileSearcher
 {
-    Task Search(CancellationToken cancellationToken);
+    //Task Search(CancellationToken cancellationToken);
 }

@@ -26,12 +26,12 @@ public sealed class ZipFileSearcher : IFileSearcher
         }
         catch (InvalidDataException)
         {
-            Log($"Error: The file at '{zipFilePath}' is not a valid zip archive.");
+            //Log($"Error: The file at '{zipFilePath}' is not a valid zip archive.");
             return [];
         }
         catch (Exception ex)
         {
-            Log($"An unexpected error occurred: {ex.Message}");
+            //Log($"An unexpected error occurred: {ex.Message}");
             return [];
         }
     }
@@ -46,7 +46,7 @@ public sealed class ZipFileSearcher : IFileSearcher
     {
         if (!File.Exists(zipFilePath))
         {
-            Log($"Error: File not found at '{zipFilePath}'");
+            //Log($"Error: File not found at '{zipFilePath}'");
             yield break;
         }
 
@@ -98,14 +98,5 @@ public sealed class ZipFileSearcher : IFileSearcher
                 }
             }
         }
-
-        var a = GetUserChoice(tp);
-
-        var e = archive.GetEntry(a)!;
-        var f = $"{e.FullName.Replace('/', '-')}";
-
-        e.ExtractToFile(f, overwrite: true);
-
-        Open(f);
     }
 }

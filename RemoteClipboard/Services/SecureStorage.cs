@@ -2,10 +2,12 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using RemoteClipboard.Abstractions;
+using RemoteClipboard.Model;
 
-namespace RemoteClipboard;
+namespace RemoteClipboard.Services;
 
-public class SecureStorage
+public class SecureStorage : ISecureStorage
 {
     //private static readonly string _filePath = Path.Combine(
     //    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
@@ -27,7 +29,7 @@ public class SecureStorage
         }
     }
 
-    public static async Task SaveCredentials(
+    public async Task SaveCredentials(
         UserCredentials userCredentials,
         CancellationToken cancellationToken = default
     )
@@ -47,14 +49,16 @@ public class SecureStorage
         catch { }
     }
 
-    public static async Task<UserCredentials?> GetCredentials(
+    public async Task<UserCredentials?> GetCredentials(
         CancellationToken cancellationToken = default
     )
     {
         try
         {
             if (!File.Exists(_filePath))
+            {
                 return null;
+            }
 
             var encryptedData = await File.ReadAllBytesAsync(_filePath, cancellationToken);
             var decryptedData = ProtectedData.Unprotect(
@@ -73,7 +77,7 @@ public class SecureStorage
         }
     }
 
-    public static void DeleteCredentials()
+    public void DeleteCredentials()
     {
         try
         {

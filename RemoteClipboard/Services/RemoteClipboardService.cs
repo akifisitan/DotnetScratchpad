@@ -1,8 +1,10 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
+using Scratchpad.Lib.Clipboard;
 
-namespace Scratchpad.Lib.Clipboard;
+namespace RemoteClipboard.Services;
 
 internal class RemoteClipboardService : IClipboardService
 {

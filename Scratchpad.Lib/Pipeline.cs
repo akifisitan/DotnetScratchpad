@@ -73,8 +73,17 @@ public class Pipeline
 
                 // Replace relative package references with repository package store
                 const string packagePattern = @"\packages\";
-                var idx = hintPathNode.Value.IndexOf(packagePattern);
-                if (idx != -1 && !hintPathNode.Value.StartsWith(relativePackageDirectoryPath))
+                var idx = hintPathNode.Value.IndexOf(
+                    packagePattern,
+                    StringComparison.OrdinalIgnoreCase
+                );
+                if (
+                    idx != -1
+                    && !hintPathNode.Value.StartsWith(
+                        relativePackageDirectoryPath,
+                        StringComparison.OrdinalIgnoreCase
+                    )
+                )
                 {
                     hintPathNode.Value =
                         @$"{relativePackageDirectoryPath}\{hintPathNode.Value[(idx + packagePattern.Length)..]}";

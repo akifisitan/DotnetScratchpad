@@ -7,7 +7,7 @@ namespace Scratchpad.Lib.FileSearch;
 
 public sealed class FileSearcher : IFileSearcher
 {
-    public static void SearchLogFiles(
+    public static void Search(
         string searchPattern,
         string searchDirectory,
         DateTimeOffset? startDate = null,
@@ -78,7 +78,7 @@ public sealed class FileSearcher : IFileSearcher
         {
             var searchFileResult =
                 searchZip && IsZip(path)
-                    ? SearchInZip(
+                    ? ZipFileSearcher.SearchInZip(
                         path,
                         searchRegex,
                         includeFilePredicate: entry =>

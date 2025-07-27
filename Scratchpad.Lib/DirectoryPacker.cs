@@ -9,7 +9,6 @@ public class DirectoryPacker : IDirectoryPacker
     private static readonly JsonSerializerOptions jsonSerializerOptions = new()
     {
         WriteIndented = true,
-        IndentSize = 2,
     };
 
     public async Task Pack(

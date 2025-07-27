@@ -1,19 +1,29 @@
 ﻿using System.Windows;
+using RemoteClipboard.Abstractions;
+using Scratchpad.Lib.Clipboard;
 
 namespace RemoteClipboard;
 
 public partial class MainWindow : Window
 {
+    private readonly IClipboardService _clipboardService;
+    private readonly IAppService _appService;
+
     public MainWindow()
     {
         InitializeComponent();
+
+        _clipboardService = DIContainer.GetRequiredService<IClipboardService>();
+        _appService = DIContainer.GetRequiredService<IAppService>();
     }
 
     private async void ReadButton_Click(object sender, RoutedEventArgs e)
     {
         SetLoading(true);
-        var result = await Functions.ReadFromRemoteClipboard();
+        var result = await _clipboardService.ReadFromClipboard();
         ReadTextBox.Text = result;
+        _appService.SetClipboardText(result);
+
         //MessageBox.Show($"Clipboard data:\n{result}");
         SetLoading(false);
     }
@@ -23,19 +33,22 @@ public partial class MainWindow : Window
         SetLoading(true);
 
         var text = !string.IsNullOrWhiteSpace(InputTextBox.Text) ? InputTextBox.Text : null;
-        await Functions.WriteToRemoteClipboard(text);
+
+        text ??= _appService.GetClipboardText();
+
+        await _clipboardService.WriteToClipboard(text);
 
         SetLoading(false);
     }
 
     private void CopyButton_Click(object sender, RoutedEventArgs e)
     {
-        Functions.SetClipboardText(ReadTextBox.Text);
+        _appService.SetClipboardText(ReadTextBox.Text);
     }
 
     private void LogoutButton_Click(object sender, RoutedEventArgs e)
     {
-        Functions.Logout();
+        _appService.Logout();
         var loginWindow = new LoginWindow();
         loginWindow.Show();
         Close();

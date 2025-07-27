@@ -1,13 +1,19 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using RemoteClipboard.Abstractions;
+using RemoteClipboard.Model;
 
 namespace RemoteClipboard;
 
 public partial class LoginWindow : Window
 {
+    private readonly IAppService _appService;
+
     public LoginWindow()
     {
         InitializeComponent();
+
+        _appService = DIContainer.GetRequiredService<IAppService>();
     }
 
     private async void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -24,7 +30,7 @@ public partial class LoginWindow : Window
 
             var userCredentials = new UserCredentials(UsernameTextBox.Text, PasswordBox.Password);
 
-            if (await Functions.Login(userCredentials))
+            if (await _appService.Login(userCredentials))
             {
                 var mainWindow = new MainWindow();
                 mainWindow.Show();
@@ -33,7 +39,7 @@ public partial class LoginWindow : Window
             else
             {
                 ErrorMessage.Text = "Invalid username or password";
-                SecureStorage.DeleteCredentials();
+                _appService.DeleteSavedCredentials();
             }
         }
         finally
@@ -53,7 +59,7 @@ public partial class LoginWindow : Window
     private async void Window_Loaded(object sender, RoutedEventArgs e)
     {
         SetLoadingState(true);
-        var savedCredentials = await SecureStorage.GetCredentials();
+        var savedCredentials = await _appService.GetSavedCredentials();
         SetLoadingState(false);
 
         if (savedCredentials == null)
