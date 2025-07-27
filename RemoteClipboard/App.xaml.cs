@@ -1,17 +1,13 @@
 ﻿using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
+using RemoteClipboard.Model;
 
 namespace RemoteClipboard;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
 public partial class App : Application
 {
-    protected override void OnStartup(StartupEventArgs e)
+    private void Application_Startup(object sender, StartupEventArgs e)
     {
-        base.OnStartup(e);
-
         var services = new ServiceCollection();
 
         services.AddRemoteClipboard();
@@ -21,10 +17,10 @@ public partial class App : Application
         DIContainer.SetServiceProvider(serviceProvider);
     }
 
-    protected override void OnExit(ExitEventArgs e)
+    private void Application_Exit(object sender, ExitEventArgs e)
     {
-        base.OnExit(e);
-
         DIContainer.Dispose();
+
+        DesktopContext.HotKeyManager.Dispose();
     }
 }
