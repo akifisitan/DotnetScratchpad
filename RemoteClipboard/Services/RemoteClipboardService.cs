@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
-using Scratchpad.Lib.Clipboard;
+using RemoteClipboard.Abstractions;
 
 namespace RemoteClipboard.Services;
 
@@ -64,5 +64,13 @@ internal class RemoteClipboardService : IClipboardService
         httpClient.DefaultRequestHeaders.Authorization = GetAuthenticationHeaderValue();
 
         return httpClient;
+    }
+
+    public Task<List<string>> ReadLastNEntriesFromClipboard(
+        int n,
+        CancellationToken cancellationToken = default
+    )
+    {
+        throw new NotImplementedException();
     }
 }

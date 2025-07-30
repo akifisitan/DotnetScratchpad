@@ -1,6 +1,6 @@
 ﻿using System.IO;
+using RemoteClipboard.Abstractions;
 using RemoteClipboard.Model;
-using Scratchpad.Lib.Clipboard;
 
 namespace RemoteClipboard.Services;
 
@@ -39,6 +39,23 @@ internal class LocalTextFileClipboardService : IClipboardService
         }
 
         return await File.ReadAllTextAsync(fileName, cancellationToken);
+    }
+
+    public async Task<List<string>> ReadLastNEntriesFromClipboard(
+        int n,
+        CancellationToken cancellationToken = default
+    )
+    {
+        await Task.Delay(Jitter, cancellationToken);
+        var filePathlist = GetLastNFiles(n);
+        List<string> result = [];
+
+        foreach (var item in filePathlist)
+        {
+            result.Add(await File.ReadAllTextAsync(item, cancellationToken));
+        }
+
+        return result;
     }
 
     private static List<string> GetLastNFiles(int n)

@@ -1,18 +1,32 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using GlobalHotKeys;
 using GlobalHotKeys.Native.Types;
 using RemoteClipboard.Abstractions;
 using RemoteClipboard.Model;
-using Scratchpad.Lib.Clipboard;
 
 namespace RemoteClipboard;
+
+public class ClipboardItem
+{
+    public string Text { get; set; }
+    public string DisplayText { get; set; }
+
+    public ClipboardItem(string text)
+    {
+        Text = text;
+        DisplayText = text.Length > 100 ? text[..100] + "..." : text;
+    }
+}
 
 public partial class MainWindow : Window
 {
     private readonly IClipboardService _clipboardService;
     private readonly IAppService _appService;
     private readonly SemaphoreSlim _semaphoreSlim = new(1, 1);
+    private readonly ObservableCollection<ClipboardItem> _clipboardItems = [];
 
     IRegistration? hotkeyManagerCtrlShiftCRegistration;
     IRegistration? hotkeyManagerCtrlShiftDelRegistration;
@@ -24,6 +38,8 @@ public partial class MainWindow : Window
 
         _clipboardService = DIContainer.GetRequiredService<IClipboardService>();
         _appService = DIContainer.GetRequiredService<IAppService>();
+
+        ClipboardListView.ItemsSource = _clipboardItems;
     }
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -97,19 +113,17 @@ public partial class MainWindow : Window
         await HandleWrite();
     }
 
-    private void CopyButton_Click(object sender, RoutedEventArgs e)
+    private void CopyItemButton_Click(object sender, RoutedEventArgs e)
     {
-        HandleCopy();
+        if (sender is Button button && button.Tag is string text)
+        {
+            _appService.SetClipboardText(text);
+        }
     }
 
     private void LogoutButton_Click(object sender, RoutedEventArgs e)
     {
         HandleLogout();
-    }
-
-    private void HandleCopy()
-    {
-        _appService.SetClipboardText(ReadTextBox.Text);
     }
 
     private void HandleLogout()
@@ -137,9 +151,19 @@ public partial class MainWindow : Window
     {
         SetLoading(true);
 
-        var result = await _clipboardService.ReadFromClipboard();
-        ReadTextBox.Text = result;
-        _appService.SetClipboardText(result);
+        var result = await _clipboardService.ReadLastNEntriesFromClipboard(5);
+
+        if (result.Count > 0)
+        {
+            _clipboardItems.Clear();
+
+            foreach (var item in result)
+            {
+                _clipboardItems.Add(new ClipboardItem(item));
+            }
+
+            _appService.SetClipboardText(result[0]);
+        }
 
         SetLoading(false);
     }
@@ -149,5 +173,6 @@ public partial class MainWindow : Window
         WriteButton.IsEnabled = !isLoading;
         ReadButton.IsEnabled = !isLoading;
         LogoutButton.IsEnabled = !isLoading;
+        ClipboardListView.IsEnabled = !isLoading;
     }
 }

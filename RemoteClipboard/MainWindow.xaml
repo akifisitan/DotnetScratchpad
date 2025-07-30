@@ -11,8 +11,38 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel Margin="20">
-            <TextBlock x:Name="ReadTextBox" Margin="0,0,0,10" />
-            <Button x:Name="CopyButton" Content="Copy" Click="CopyButton_Click" Margin="0,0,0,10"/>
+            <ListView x:Name="ClipboardListView" 
+                      Height="200" 
+                      Margin="0,0,0,10"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox Grid.Column="0"
+                                     Text="{Binding DisplayText}"
+                                     IsReadOnly="True"
+                                     BorderThickness="0"
+                                     Background="Transparent"
+                                     TextWrapping="NoWrap"
+                                     MaxLength="100"
+                                     ToolTip="{Binding Text}"
+                                     Margin="0,0,10,0"/>
+
+                            <Button Grid.Column="1"
+                                    Content="Copy"
+                                    Width="60"
+                                    Height="25"
+                                    Click="CopyItemButton_Click"
+                                    Tag="{Binding Text}"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             <Button x:Name="ReadButton" Content="Read" Click="ReadButton_Click" Margin="0,0,0,10"/>
             <TextBox x:Name="InputTextBox" Margin="0,0,0,10"/>
             <Button x:Name="WriteButton" Content="Write" Click="WriteButton_Click" Margin="0,0,0,10"/>

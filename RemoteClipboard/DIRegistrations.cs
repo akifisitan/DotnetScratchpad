@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RemoteClipboard.Abstractions;
 using RemoteClipboard.Services;
-using Scratchpad.Lib.Clipboard;
 
 namespace RemoteClipboard;
 
