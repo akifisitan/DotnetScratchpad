@@ -198,7 +198,15 @@ internal class MultiSelectForm<T> : FormBase<IEnumerable<T>>
             return false;
         }
 
-        InputBuffer.Backspace();
+        if (keyInfo.Modifiers.HasFlag(ConsoleModifiers.Control))
+        {
+            InputBuffer.BackspaceWord();
+        }
+        else
+        {
+            InputBuffer.Backspace();
+        }
+
         _paginator.UpdateFilter(InputBuffer.ToString());
 
         return true;
