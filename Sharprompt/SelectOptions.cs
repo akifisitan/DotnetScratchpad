@@ -27,6 +27,8 @@ public class SelectOptions<T>
 
     public Func<T, string> TextSelector { get; set; } = x => x.ToString()!;
 
+    public bool SearchIsEnabled { get; set; } = true;
+
     public Func<T, string, bool> TextInputFilter { get; set; } =
         (item, keyword) => item.ToString()!.Contains(keyword, StringComparison.OrdinalIgnoreCase);
 

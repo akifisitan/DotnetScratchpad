@@ -117,26 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Message_NotSupportedEnvironment" xml:space="preserve">
-    <value>Sharprompt の実行には対話環境が必要です</value>
+  <data name="Validation_Minimum_OutOfRange" xml:space="preserve">
+    <value>最小値 ({0}) は不正です</value>
   </data>
-  <data name="Message_Pagination" xml:space="preserve">
-    <value>({0} 項目, {1}/{2} ページ)</value>
-  </data>
-  <data name="Message_PromptCanceled" xml:space="preserve">
-    <value>プロンプトがキャンセルされました</value>
-  </data>
-  <data name="Validation_Invalid" xml:space="preserve">
-    <value>不正な値です</value>
-  </data>
-  <data name="Validation_Required" xml:space="preserve">
-    <value>値が必須です</value>
-  </data>
-  <data name="Validation_MaxLength" xml:space="preserve">
-    <value>値が長すぎます</value>
-  </data>
-  <data name="Validation_MinLength" xml:space="preserve">
-    <value>値が短すぎます</value>
+  <data name="Validation_Maximum_OutOfRange" xml:space="preserve">
+    <value>最小値を({1})に設定した場合、最大値({0})は不正です</value>
   </data>
   <data name="Validation_Type_Incompatible" xml:space="preserve">
     <value>{0} 型は {1} 型との互換性がありません</value>
@@ -147,14 +132,14 @@
   <data name="MultiSelectForm_Message_Hint" xml:space="preserve">
     <value>&lt;スペース&gt; で選択、&lt;ctrl+a&gt; ですべて選択、&lt;ctrl+i&gt; で選択を反転</value>
   </data>
-  <data name="Validation_RegularExpression" xml:space="preserve">
-    <value>値が指定されたパターンに一致しません</value>
+  <data name="Message_Pagination" xml:space="preserve">
+    <value>({0} 項目, {1}/{2} ページ)</value>
+  </data>
+  <data name="Validation_Invalid" xml:space="preserve">
+    <value>不正な値です</value>
   </data>
   <data name="Validation_Maximum_InputRequired" xml:space="preserve">
     <value>{0} 個以下の入力が必須です</value>
-  </data>
-  <data name="Validation_Maximum_OutOfRange" xml:space="preserve">
-    <value>最小値を({1})に設定した場合、最大値({0})は不正です</value>
   </data>
   <data name="Validation_Maximum_SelectionRequired" xml:space="preserve">
     <value>{0} 個以下の選択が必須です</value>
@@ -162,13 +147,31 @@
   <data name="Validation_Minimum_InputRequired" xml:space="preserve">
     <value>{0} 個以上の入力が必須です</value>
   </data>
-  <data name="Validation_Minimum_OutOfRange" xml:space="preserve">
-    <value>最小値 ({1}) は不正です</value>
-  </data>
   <data name="Validation_Minimum_SelectionRequired" xml:space="preserve">
     <value>{0} 個以上の選択が必須です</value>
   </data>
+  <data name="Validation_RegularExpression" xml:space="preserve">
+    <value>値が指定されたパターンに一致しません</value>
+  </data>
+  <data name="Validation_Required" xml:space="preserve">
+    <value>値が必須です</value>
+  </data>
+  <data name="Validation_MaxLength" xml:space="preserve">
+    <value>値が長すぎます</value>
+  </data>
+  <data name="Validation_MinLength" xml:space="preserve">
+    <value>値が短すぎます</value>
+  </data>
+  <data name="Message_PromptCanceled" xml:space="preserve">
+    <value>プロンプトがキャンセルされました</value>
+  </data>
+  <data name="Message_NotSupportedEnvironment" xml:space="preserve">
+    <value />
+  </data>
   <data name="Validation_Type_NotParameterlessMethod" xml:space="preserve">
     <value>引数を持つメソッドは指定できません</value>
+  </data>
+  <data name="MultiSelectForm_Message_Hint2" xml:space="preserve">
+    <value />
   </data>
 </root>

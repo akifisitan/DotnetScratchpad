@@ -133,7 +133,7 @@
     <value>Hit &lt;space&gt; to select, &lt;ctrl+a&gt; to toggle all, &lt;ctrl+i&gt; to invert selection</value>
   </data>
   <data name="Message_Pagination" xml:space="preserve">
-    <value>({0} items, {1}/{2} pages)</value>
+    <value>({0} items, {1}/{2} pages) 123</value>
   </data>
   <data name="Validation_Invalid" xml:space="preserve">
     <value>Value is invalid</value>
@@ -176,5 +176,8 @@
   </data>
   <data name="ConfirmForm_Answer_No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="MultiSelectForm_Message_Hint2" xml:space="preserve">
+    <value>Use the &lt;left&gt; and &lt;right&gt; arrows to move between pages.</value>
   </data>
 </root>

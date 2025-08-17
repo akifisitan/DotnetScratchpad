@@ -18,7 +18,6 @@ internal class SelectForm<T> : FormBase<T>
             options.Items,
             Math.Min(options.PageSize, Height - 2),
             Optional<T>.Create(options.DefaultValue),
-            options.TextSelector,
             options.TextInputFilter
         )
         {
@@ -77,6 +76,9 @@ internal class SelectForm<T> : FormBase<T>
                 )
             );
         }
+
+        offscreenBuffer.WriteLine();
+        offscreenBuffer.WriteHint("Up down keys to move, enter to select");
     }
 
     protected override void FinishTemplate(OffscreenBuffer offscreenBuffer, T result)
@@ -99,6 +101,11 @@ internal class SelectForm<T> : FormBase<T>
 
     protected override bool HandleTextInput(ConsoleKeyInfo keyInfo)
     {
+        if (!_options.SearchIsEnabled)
+        {
+            return false;
+        }
+
         base.HandleTextInput(keyInfo);
 
         _paginator.UpdateFilter(InputBuffer.ToString());

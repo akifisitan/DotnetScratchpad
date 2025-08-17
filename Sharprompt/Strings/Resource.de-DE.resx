@@ -177,4 +177,7 @@
   <data name="ConfirmForm_Answer_No" xml:space="preserve">
     <value>Nein</value>
   </data>
+  <data name="MultiSelectForm_Message_Hint2" xml:space="preserve">
+    <value />
+  </data>
 </root>
