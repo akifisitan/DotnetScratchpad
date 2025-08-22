@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FuzzySharp;
-using Sharprompt;
+using Vaerktojer.Prompt;
+
 
 namespace LogSearch.ConsoleApp;
 
@@ -28,13 +29,14 @@ internal sealed class Service
         var applicationName = Prompt.Select(
             "Select application to search",
             data.Keys,
-            pageSize: 10,
+            pageSize: 2,
             textInputFilter: SearchFilter
         );
 
         var servers = Prompt.MultiSelect(
             "Select servers to search",
             data[applicationName].Servers,
+            pageSize: 2,
             textInputFilter: SearchFilter
         );
 

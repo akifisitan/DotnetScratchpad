@@ -1,12 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.FileSystemGlobbing;
-using Spectre.Console;
 
 namespace Scratchpad.Lib.FileSearch;
 
 public sealed class FileSearcher : IFileSearcher
 {
+    private const int bufferSize = 4096 * 2;
+
     public static void Search(
         string searchPattern,
         string searchDirectory,
@@ -15,7 +16,8 @@ public sealed class FileSearcher : IFileSearcher
         bool searchZip = false,
         string includePattern = "*",
         string? excludePattern = null,
-        bool stopWhenFound = false
+        FileSearchOptions? fileSearchOptions = null,
+        ZipFileSearchOptions? zipFileSearchOptions = null
     )
     {
         var searchRegex = new Regex(
@@ -70,27 +72,35 @@ public sealed class FileSearcher : IFileSearcher
             $"Finished searching through {count} files in {sw.Elapsed.TotalSeconds} seconds."
         );
 
-        bool IsZip(string path) =>
-            Path.GetExtension(path)?.Equals(".zip", StringComparison.InvariantCultureIgnoreCase)
-                is true;
+        static bool IsZip(string path) =>
+            Path.GetExtension(path)?.Equals(".zip", StringComparison.OrdinalIgnoreCase) is true;
 
         void InternalSearch(string path)
         {
-            var searchFileResult =
-                searchZip && IsZip(path)
-                    ? ZipFileSearcher.SearchInZip(
-                        path,
-                        searchRegex,
-                        includeFilePredicate: entry =>
-                            matcher.Match(entry.FullName).HasMatches
-                            && entry.LastWriteTime >= startDate
-                            && entry.LastWriteTime <= endDate
-                    )
-                    : SearchInFile(path, searchRegex);
-
-            foreach (var searchResult in searchFileResult)
+            try
             {
-                Log($"{searchResult}");
+                var searchFileResult =
+                    !IsZip(path) ? SearchInFile(path, searchRegex, options: fileSearchOptions)
+                    : searchZip
+                        ? ZipFileSearcher.SearchInZip(
+                            path,
+                            searchRegex,
+                            options: zipFileSearchOptions,
+                            includeFileFilter: entry =>
+                                matcher.Match(entry.FullName).HasMatches
+                                && entry.LastWriteTime >= startDate
+                                && entry.LastWriteTime <= endDate
+                        )
+                    : [];
+
+                foreach (var searchResult in searchFileResult)
+                {
+                    Log($"{searchResult}");
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                Log($"Error: File not found at '{path}'");
             }
         }
     }
@@ -98,16 +108,20 @@ public sealed class FileSearcher : IFileSearcher
     private static IEnumerable<SearchResult> SearchInFile(
         string filePath,
         Regex searchRegex,
-        bool stopWhenFound = true
+        FileSearchOptions? options = null
     )
     {
-        if (!File.Exists(filePath))
-        {
-            Log($"Error: File not found at '{filePath}'");
-            yield break;
-        }
+        options ??= FileSearchOptions.Default;
 
-        using var stream = File.OpenRead(filePath);
+        using var stream = new FileStream(
+            filePath,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.Read,
+            bufferSize,
+            FileOptions.SequentialScan
+        );
+
         using var reader = new StreamReader(stream);
 
         string? line;
@@ -117,10 +131,46 @@ public sealed class FileSearcher : IFileSearcher
             lineNumber++;
             if (searchRegex.IsMatch(line))
             {
-                yield return new(Path.GetFileName(filePath), lineNumber, line);
-                if (stopWhenFound)
+                yield return new(filePath, lineNumber, line);
+                if (options.StopWhenFound)
                 {
-                    break;
+                    yield break;
+                }
+            }
+        }
+    }
+
+    private static async IAsyncEnumerable<SearchResult> SearchInFileAsync(
+        string filePath,
+        Regex searchRegex,
+        FileSearchOptions? options = null
+    )
+    {
+        options ??= FileSearchOptions.Default;
+
+        using var stream = new FileStream(
+            filePath,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.Read,
+            bufferSize,
+            FileOptions.Asynchronous | FileOptions.SequentialScan
+        );
+
+        using var reader = new StreamReader(stream);
+
+        string? line;
+        var lineNumber = 0;
+        while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
+        {
+            lineNumber++;
+            if (searchRegex.IsMatch(line))
+            {
+                yield return new(filePath, lineNumber, line);
+
+                if (options.StopWhenFound)
+                {
+                    yield break;
                 }
             }
         }
@@ -131,27 +181,7 @@ public sealed class FileSearcher : IFileSearcher
         Console.WriteLine(message);
     }
 
-    private static string GetUserChoice(List<string> choices)
-    {
-        var prompt = new SelectionPrompt<string>()
-            .Title("Pick one or more files to open.")
-            .EnableSearch()
-            .SearchPlaceholderText("Search: ")
-            .PageSize(10)
-            .MoreChoicesText("[grey](Move up and down to reveal more fruits)[/]")
-            .AddChoices(choices)
-            .WrapAround();
-
-        prompt.SearchHighlightStyle = new Style(
-            foreground: Color.Blue,
-            background: Color.Red,
-            decoration: Decoration.Underline
-        );
-
-        return AnsiConsole.Prompt(prompt);
-    }
-
-    private static void Open(string path)
+    private static void OpenWithNpp(string path)
     {
         Process.Start(
             new ProcessStartInfo

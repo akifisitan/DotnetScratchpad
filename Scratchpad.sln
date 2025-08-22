@@ -26,7 +26,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogGrep", "LogGrep\LogGrep.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogSearch.ConsoleApp", "LogSearch\LogSearch.ConsoleApp\LogSearch.ConsoleApp.csproj", "{E54625F1-F599-06C7-305A-3AAFD32072B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sharprompt", "..\..\..\Vaerktojer.Prompt\Sharprompt\Sharprompt.csproj", "{F14DE1BA-4246-F72D-3A08-26EF802103E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vaerktojer.Prompt", "..\..\..\Vaerktojer.Prompt\Vaerktojer.Prompt\Vaerktojer.Prompt.csproj", "{294959AF-A123-9E61-7A8F-4FB0531BF212}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,10 +70,10 @@ Global
 		{E54625F1-F599-06C7-305A-3AAFD32072B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E54625F1-F599-06C7-305A-3AAFD32072B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E54625F1-F599-06C7-305A-3AAFD32072B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F14DE1BA-4246-F72D-3A08-26EF802103E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F14DE1BA-4246-F72D-3A08-26EF802103E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F14DE1BA-4246-F72D-3A08-26EF802103E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F14DE1BA-4246-F72D-3A08-26EF802103E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

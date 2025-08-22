@@ -9,9 +9,9 @@ public sealed class ZipFileSearcher : IFileSearcher
     public static IEnumerable<SearchResult> SearchInZip(
         string zipFilePath,
         Regex searchRegex,
-        Func<ZipArchiveEntry, bool>? includeFilePredicate = null,
-        Func<ZipArchiveEntry, bool>? excludeFilePredicate = null,
-        ZipFileSearchOptions? zipFileSearchOptions = null
+        Func<ZipArchiveEntry, bool>? includeFileFilter = null,
+        Func<ZipArchiveEntry, bool>? excludeFileFilter = null,
+        ZipFileSearchOptions? options = null
     )
     {
         try
@@ -19,9 +19,9 @@ public sealed class ZipFileSearcher : IFileSearcher
             return SearchInZipInternal(
                 zipFilePath,
                 searchRegex,
-                includeFilePredicate: includeFilePredicate,
-                excludeFilePredicate: excludeFilePredicate,
-                zipFileSearchOptions: zipFileSearchOptions
+                includeFileFilter,
+                excludeFileFilter,
+                options
             );
         }
         catch (InvalidDataException)
@@ -29,7 +29,7 @@ public sealed class ZipFileSearcher : IFileSearcher
             //Log($"Error: The file at '{zipFilePath}' is not a valid zip archive.");
             return [];
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not FileNotFoundException)
         {
             //Log($"An unexpected error occurred: {ex.Message}");
             return [];
@@ -39,20 +39,14 @@ public sealed class ZipFileSearcher : IFileSearcher
     private static IEnumerable<SearchResult> SearchInZipInternal(
         string zipFilePath,
         Regex searchRegex,
-        Func<ZipArchiveEntry, bool>? includeFilePredicate = null,
-        Func<ZipArchiveEntry, bool>? excludeFilePredicate = null,
-        ZipFileSearchOptions? zipFileSearchOptions = null
+        Func<ZipArchiveEntry, bool>? includeFileFilter = null,
+        Func<ZipArchiveEntry, bool>? excludeFileFilter = null,
+        ZipFileSearchOptions? options = null
     )
     {
-        if (!File.Exists(zipFilePath))
-        {
-            //Log($"Error: File not found at '{zipFilePath}'");
-            yield break;
-        }
-
-        zipFileSearchOptions ??= new();
-        includeFilePredicate ??= _ => true;
-        excludeFilePredicate ??= _ => false;
+        options ??= ZipFileSearchOptions.Default;
+        includeFileFilter ??= _ => true;
+        excludeFileFilter ??= _ => false;
 
         // Warning: This stream is not thread safe
         using var archive = ZipFile.OpenRead(zipFilePath);
@@ -61,7 +55,7 @@ public sealed class ZipFileSearcher : IFileSearcher
 
         foreach (var entry in archive.Entries)
         {
-            if (excludeFilePredicate(entry) || !includeFilePredicate(entry))
+            if (excludeFileFilter(entry) || !includeFileFilter(entry))
             {
                 continue;
             }
@@ -80,7 +74,7 @@ public sealed class ZipFileSearcher : IFileSearcher
                 {
                     tp.Add(entry.FullName);
 
-                    if (!string.IsNullOrWhiteSpace(zipFileSearchOptions.ExtractPath))
+                    if (!string.IsNullOrWhiteSpace(options.ExtractPath))
                     {
                         var sw = Stopwatch.StartNew();
                         entry.ExtractToFile($"{entry.FullName.Replace('/', '-')}", overwrite: true);
@@ -91,9 +85,9 @@ public sealed class ZipFileSearcher : IFileSearcher
 
                     yield return new(Path.Combine(zipFilePath, entry.FullName), lineNumber, line);
 
-                    if (zipFileSearchOptions.StopWhenFound)
+                    if (options.StopWhenFound)
                     {
-                        break;
+                        yield break;
                     }
                 }
             }
