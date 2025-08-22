@@ -11,7 +11,6 @@ const string model = "llama3.2";
 
 //const string model = "deepseek-r1:1.5b";
 
-
 builder.Services.AddLogging(builder =>
 {
     builder.AddConsole();

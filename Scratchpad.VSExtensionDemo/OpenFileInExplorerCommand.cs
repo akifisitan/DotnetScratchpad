@@ -1,10 +1,10 @@
-﻿using EnvDTE80;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using System;
+﻿using System;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.IO;
+using EnvDTE80;
+using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Shell.Interop;
 using Task = System.Threading.Tasks.Task;
 
 namespace VSExtensionDemo
@@ -35,10 +35,14 @@ namespace VSExtensionDemo
         /// </summary>
         /// <param name="package">Owner package, not null.</param>
         /// <param name="commandService">Command service to add command to, not null.</param>
-        private OpenFileInExplorerCommand(AsyncPackage package, OleMenuCommandService commandService)
+        private OpenFileInExplorerCommand(
+            AsyncPackage package,
+            OleMenuCommandService commandService
+        )
         {
             this.package = package ?? throw new ArgumentNullException(nameof(package));
-            commandService = commandService ?? throw new ArgumentNullException(nameof(commandService));
+            commandService =
+                commandService ?? throw new ArgumentNullException(nameof(commandService));
 
             var menuCommandID = new CommandID(CommandSet, CommandId);
             var menuItem = new MenuCommand(this.Execute, menuCommandID);
@@ -48,21 +52,14 @@ namespace VSExtensionDemo
         /// <summary>
         /// Gets the instance of the command.
         /// </summary>
-        public static OpenFileInExplorerCommand Instance
-        {
-            get;
-            private set;
-        }
+        public static OpenFileInExplorerCommand Instance { get; private set; }
 
         /// <summary>
         /// Gets the service provider from the owner package.
         /// </summary>
         private Microsoft.VisualStudio.Shell.IAsyncServiceProvider ServiceProvider
         {
-            get
-            {
-                return this.package;
-            }
+            get { return this.package; }
         }
 
         /// <summary>
@@ -75,7 +72,8 @@ namespace VSExtensionDemo
             // the UI thread.
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);
 
-            OleMenuCommandService commandService = await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
+            OleMenuCommandService commandService =
+                await package.GetServiceAsync(typeof(IMenuCommandService)) as OleMenuCommandService;
             Instance = new OpenFileInExplorerCommand(package, commandService);
         }
 
@@ -98,7 +96,8 @@ namespace VSExtensionDemo
                 "My title",
                 OLEMSGICON.OLEMSGICON_INFO,
                 OLEMSGBUTTON.OLEMSGBUTTON_OK,
-                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
+                OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST
+            );
 
             var filePath = dte.ActiveDocument?.FullName;
             if (string.IsNullOrWhiteSpace(filePath))
@@ -117,14 +116,13 @@ namespace VSExtensionDemo
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 CreateNoWindow = true,
-                WorkingDirectory = workingDirectory
+                WorkingDirectory = workingDirectory,
             };
 
             var process = Process.Start(startInfo);
             var remoteUrl = process.StandardOutput.ReadToEnd().Trim();
 
             Console.WriteLine(remoteUrl);
-
         }
     }
 }

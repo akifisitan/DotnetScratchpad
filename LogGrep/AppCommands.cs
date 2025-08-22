@@ -6,7 +6,7 @@ namespace LogGrep;
 public sealed class AppCommands
 {
     [Command("")]
-    public async Task Hello([EmailAddress][Argument] string emailAddress, [Path] string path)
+    public async Task Hello([EmailAddress] [Argument] string emailAddress, [Path] string path)
     {
         await Task.Delay(100);
         Console.WriteLine(emailAddress);

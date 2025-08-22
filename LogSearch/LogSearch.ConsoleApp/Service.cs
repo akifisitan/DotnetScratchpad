@@ -2,7 +2,6 @@
 using FuzzySharp;
 using Vaerktojer.Prompt;
 
-
 namespace LogSearch.ConsoleApp;
 
 internal sealed class Service
