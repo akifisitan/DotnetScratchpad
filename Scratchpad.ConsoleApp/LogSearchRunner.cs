@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FuzzySharp;
 using Vaerktojer.Prompt;
 
-namespace LogSearch.ConsoleApp;
+namespace Scratchpad.ConsoleApp;
 
-internal sealed class Service
+internal sealed class LogSearchRunner : IRunner
 {
     private readonly List<Func<object?, ValidationResult?>> regularValidators =
     [
@@ -19,8 +18,10 @@ internal sealed class Service
         },
     ];
 
-    public void Run()
+    public async Task Run(string[] args)
     {
+        await Task.Delay(0);
+
         var (userName, password) = Login();
 
         var data = Load(userName, password);

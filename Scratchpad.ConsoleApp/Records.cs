@@ -1,4 +1,4 @@
-﻿namespace LogSearch.ConsoleApp;
+﻿namespace Scratchpad.ConsoleApp;
 
 public sealed record ServiceInfo
 {

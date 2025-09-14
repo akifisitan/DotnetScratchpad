@@ -4,46 +4,6 @@ namespace Scratchpad.Lib;
 
 public static class FileEnumerator
 {
-    public static void Demo(string[]? args = null)
-    {
-        var sw = Stopwatch.StartNew();
-
-        var cts = new CancellationTokenSource(1000);
-
-        static bool Hello(string path)
-        {
-            return path.Contains("venv")
-                || path.Contains("node_modules")
-                || path.Contains("bin")
-                || path.Contains("obj");
-        }
-
-        static bool Hello2(string path)
-        {
-            string[] strings = ["venv", "node_modules", "bin", "obj"];
-
-            return strings.Any(path.Contains);
-        }
-
-        var files = FileEnumerator.EnumerateFiles(
-            @"C:\users\user\projects",
-            includeFilePredicate: path => path.Contains("hello"),
-            ignoreDirPredicate: Hello2,
-            cancellationToken: cts.Token
-        );
-
-        foreach (var file in files)
-        {
-            Console.WriteLine(file);
-        }
-
-        //Console.WriteLine(files.Count());
-
-        //Console.WriteLine(string.Join('\n', files));
-
-        Console.WriteLine(sw.Elapsed.TotalMilliseconds);
-    }
-
     public static IEnumerable<string> EnumerateFiles(
         string rootPath,
         Func<string, bool>? includeFilePredicate = null,

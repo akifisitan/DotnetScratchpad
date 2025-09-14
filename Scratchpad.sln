@@ -20,13 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSUtilsExtension", "Scratch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteClipboard", "RemoteClipboard\RemoteClipboard.csproj", "{2C296C6F-EB32-45CA-B7C4-52819AD92387}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectPacker", "ProjectPacker\ProjectPacker.csproj", "{00254135-168B-4DA7-9993-F4D6449DCFD9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogGrep", "LogGrep\LogGrep.csproj", "{74502B5F-2E14-4980-B416-66865E90D55B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogSearch.ConsoleApp", "LogSearch\LogSearch.ConsoleApp\LogSearch.ConsoleApp.csproj", "{E54625F1-F599-06C7-305A-3AAFD32072B5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vaerktojer.Prompt", "..\..\..\Vaerktojer.Prompt\Vaerktojer.Prompt\Vaerktojer.Prompt.csproj", "{294959AF-A123-9E61-7A8F-4FB0531BF212}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vaerktojer.ProjectPacker.Cli", "..\..\..\Vaerktojer.ProjectPacker\Vaerktojer.ProjectPacker.Cli\Vaerktojer.ProjectPacker.Cli.csproj", "{BCBE3A51-02C3-6D15-5585-1761A46C0B41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,22 +56,18 @@ Global
 		{2C296C6F-EB32-45CA-B7C4-52819AD92387}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C296C6F-EB32-45CA-B7C4-52819AD92387}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C296C6F-EB32-45CA-B7C4-52819AD92387}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00254135-168B-4DA7-9993-F4D6449DCFD9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{74502B5F-2E14-4980-B416-66865E90D55B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74502B5F-2E14-4980-B416-66865E90D55B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74502B5F-2E14-4980-B416-66865E90D55B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74502B5F-2E14-4980-B416-66865E90D55B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E54625F1-F599-06C7-305A-3AAFD32072B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E54625F1-F599-06C7-305A-3AAFD32072B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E54625F1-F599-06C7-305A-3AAFD32072B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E54625F1-F599-06C7-305A-3AAFD32072B5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{294959AF-A123-9E61-7A8F-4FB0531BF212}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCBE3A51-02C3-6D15-5585-1761A46C0B41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCBE3A51-02C3-6D15-5585-1761A46C0B41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCBE3A51-02C3-6D15-5585-1761A46C0B41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCBE3A51-02C3-6D15-5585-1761A46C0B41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
